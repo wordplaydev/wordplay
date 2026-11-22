@@ -7,13 +7,16 @@ export * from '@playwright/test';
  * `pageerror` without anything having thrown in our code:
  * - a resize callback that causes another resize, which a resizing editor full
  *   of animated typography does constantly;
- * - the Firestore SDK's long-poll channel to the emulator being cancelled,
- *   which WebKit raises as an unhandled "access control checks" rejection;
+ * - a request to an emulator cancelled by a navigation, which WebKit raises as
+ *   an "access control checks" rejection from inside a Firebase SDK even when
+ *   our code catches the call: Firestore's long-poll channel, and a callable
+ *   (`usernameAvailable` on the profile page) in the Functions emulator;
  * - a module's CSS preload cut off by a navigation, as signing out reloads.
  */
 const Benign = [
     /^ResizeObserver loop/,
     /Fetch API cannot load \S+\/google\.firestore\.v1\.Firestore\/(Listen|Write)\/channel\b/,
+    /Fetch API cannot load http:\/\/127\.0\.0\.1:5001\/demo-wordplay\/[\w-]+\/\w+ due to access control checks/,
     /Unable to preload CSS for /,
 ];
 
