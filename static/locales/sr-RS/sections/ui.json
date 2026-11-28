@@ -927,6 +927,10 @@
                 "added": "$~додата тачка $number",
                 "removed": "$~уклоњена тачка $number",
                 "last": "$~путањи су потребне најмање две тачке"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

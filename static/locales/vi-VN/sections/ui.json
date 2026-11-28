@@ -1185,6 +1185,10 @@
                 "added": "$~đã thêm điểm $number",
                 "removed": "$~đã xóa điểm $number",
                 "last": "$~một đường đi cần ít nhất hai điểm"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

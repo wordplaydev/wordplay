@@ -1384,6 +1384,10 @@
             "keypad": {
                 "label": "$~Клавіші, які використовує цей проєкт",
                 "any": "$~Торкнись, щоб зіграти"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

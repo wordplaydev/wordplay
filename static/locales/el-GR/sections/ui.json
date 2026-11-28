@@ -1170,6 +1170,10 @@
                 "added": "$~προστέθηκε το σημείο $number",
                 "removed": "$~αφαιρέθηκε το σημείο $number",
                 "last": "$~ένα μονοπάτι χρειάζεται τουλάχιστον δύο σημεία"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

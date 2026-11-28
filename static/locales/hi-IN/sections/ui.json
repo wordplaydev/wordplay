@@ -903,6 +903,10 @@
                 "added": "$~बिंदु $number जोड़ा गया",
                 "removed": "$~बिंदु $number हटाया गया",
                 "last": "$~एक रास्ते के लिए कम से कम दो बिंदु चाहिए"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

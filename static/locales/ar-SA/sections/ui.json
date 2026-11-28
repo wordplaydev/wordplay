@@ -1152,6 +1152,10 @@
                 "added": "$~أُضيفت النقطة $number",
                 "removed": "$~أُزيلت النقطة $number",
                 "last": "$~يحتاج المسار إلى نقطتين على الأقل"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

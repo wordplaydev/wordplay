@@ -932,6 +932,10 @@
                 "added": "$~$number numaralı nokta eklendi",
                 "removed": "$~$number numaralı nokta kaldırıldı",
                 "last": "$~bir yolun en az iki noktaya ihtiyacı vardır"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

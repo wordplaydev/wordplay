@@ -1383,6 +1383,10 @@
             "keypad": {
                 "label": "$~Tsit ê tsuan-àn ēng-tio̍h ê kiān",
                 "any": "$~Tshuā tsit-ē, khai-sí pàng"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

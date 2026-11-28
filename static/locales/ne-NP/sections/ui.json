@@ -1197,6 +1197,10 @@
                 "added": "$~$number बिन्दु थपियो",
                 "removed": "$~$number बिन्दु हटाइयो",
                 "last": "$~बाटोलाई कम्तीमा दुई बिन्दु चाहिन्छ"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

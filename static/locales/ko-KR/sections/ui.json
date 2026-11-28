@@ -903,6 +903,10 @@
                 "added": "$~$number 점 추가됨",
                 "removed": "$~$number 점 제거됨",
                 "last": "$~경로에는 최소한 두 개의 점이 필요합니다"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

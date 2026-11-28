@@ -120,6 +120,7 @@
     import { isPreviewing } from '#output/Music/previewPlayer.ts';
     import samples from '#output/Music/InstrumentSamples.ts';
     import { instrumentSamplesStatus } from '#output/Music/instrumentSamplesStatus.svelte.ts';
+    import { glyphOutlineStatus } from '#output/physics/glyphOutlineStatus.svelte.ts';
     import { toInstrumentKey } from '#output/Music/instruments.ts';
     import referencedInstruments, {
         instrumentBinds,
@@ -1160,6 +1161,20 @@
     /** Stepping through a paused program: each step's output is news, so it's
      *  announced even though the program isn't running. */
     const stepping = $derived($evaluation?.mode === 'debug');
+
+    /** Why output that collides by its letter shapes hasn't moved, or collides
+     *  by boxes. The loader is shared by every stage on the page, so it's
+     *  scoped to projects that use Matter at all, as the camera models are
+     *  scoped to projects that use them. */
+    const outlineLabel = $derived.by(() => {
+        if (!glyphOutlineStatus.loading && !glyphOutlineStatus.failed)
+            return undefined;
+        if (project.getReferences(project.shares.output.Matter).length === 0)
+            return undefined;
+        return glyphOutlineStatus.loading
+            ? $locales.getPrimaryPlainText((l) => l.ui.output.outline.loading)
+            : $locales.getPrimaryPlainText((l) => l.ui.output.outline.boxes);
+    });
 
     /** Keep track of active sensor streams */
     const hasMicrophoneStream = $derived(
@@ -3281,10 +3296,10 @@
             </div>
         {/if}
         <!-- Stage controls dock: stream status chips (Hand/Face loading, sensors) + keyboard input -->
-        {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || (interactive && listensForKeys)}
+        {#if musicLoadingLabel !== undefined || outlineLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || (interactive && listensForKeys)}
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Hand/Face loading indicators, sensor monitors -->
-                {#if musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
+                {#if musicLoadingLabel !== undefined || outlineLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
                     <div class="stage-controls-row">
                         <!-- Sensor monitors (camera before microphone in visual order) -->
                         {#if hasCameraStream}
@@ -3311,6 +3326,16 @@
                                 title={musicLoadingLabel}
                                 aria-label={musicLoadingLabel}
                                 ><Emoji text="🔈" /></span
+                            >
+                        {/if}
+                        <!-- Why output that collides by its letter shapes
+                             hasn't started moving: physics waits for them. -->
+                        {#if outlineLabel !== undefined}
+                            <span
+                                class="pill stage-control-chip hand-loading"
+                                title={outlineLabel}
+                                aria-label={outlineLabel}
+                                ><Emoji text="🔤" /></span
                             >
                         {/if}
                         <!-- Model loading indicators -->

@@ -1185,6 +1185,10 @@
                 "added": "$~menambahkan titik $number",
                 "removed": "$~menghapus titik $number",
                 "last": "$~sebuah jalur membutuhkan setidaknya dua titik"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

@@ -1380,6 +1380,10 @@
             "keypad": {
                 "label": "$~Клавиши, которые использует этот проект",
                 "any": "$~Нажми, чтобы играть"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

@@ -932,6 +932,10 @@
                 "added": "$~$number புள்ளி சேர்க்கப்பட்டது",
                 "removed": "$~$number புள்ளி நீக்கப்பட்டது",
                 "last": "$~ஒரு பாதைக்கு குறைந்தது இரண்டு புள்ளிகள் தேவை"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

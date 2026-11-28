@@ -357,17 +357,35 @@ export class FontManager {
         return fontFace;
     }
 
+    /** Load one file, retrying a failed or stalled download, since a failed
+     *  FontFace never tries again and text would stay in a fallback face. */
     async loadFont(font: Font): Promise<boolean> {
-        const fontFace = this.registerFontFace(font);
-        if (fontFace === null) return false;
-        // Load the font face and update the loaded set when done.
-        // This ensures we update any font dependent measurements that depend on this store.
-        fontFace.load().then(() => {
-            this.facesLoaded.set(font.name, 'loaded');
-            loadedFonts.set(new Set(this.facesLoaded.keys()));
-        });
+        for (const delay of [0, ...NetworkRetryDelaysMs]) {
+            if (delay > 0) await wait(delay);
+            const fontFace = this.registerFontFace(font);
+            if (fontFace === null) return false;
+            try {
+                await Promise.race([
+                    fontFace.load(),
+                    wait(ContourFontTimeoutMs).then(() => {
+                        throw new Error('stalled');
+                    }),
+                ]);
+                // Update the loaded set, which font dependent measurements watch.
+                this.facesLoaded.set(font.name, 'loaded');
+                loadedFonts.set(new Set(this.facesLoaded.keys()));
+                return true;
+            } catch {
+                // Make way for the next attempt's face.
+                document.fonts.delete(fontFace);
+            }
+        }
+        return false;
+    }
 
-        return true;
+    /** Whether a face is still downloading, which physics waits for. */
+    isFaceLoading(face: string): boolean {
+        return this.facesLoaded.get(face) === 'requested';
     }
 
     /** Load a single lightweight file for the face so choosers
@@ -529,6 +547,15 @@ function contourFontKey(
  * the failure (so the caller can report it), or undefined when there's nothing to
  * do (no browser, or an unsupported face/weight).
  */
+/** A stalled download counts as a connection failure after this long. */
+const ContourFontTimeoutMs = 20000;
+
+/** Waits before each retry of a font download that couldn't reach the network. */
+export const NetworkRetryDelaysMs = [1000, 2000, 4000, 8000];
+
+const wait = (ms: number) =>
+    new Promise<void>((resolve) => setTimeout(resolve, ms));
+
 export async function getContourFont(
     face: SupportedFace,
     weight: FontWeight,
@@ -561,16 +588,19 @@ export async function getContourFont(
     const load = (async (): Promise<FontkitFont | ContourFontError> => {
         try {
             let response: Response;
+            let buffer: ArrayBuffer;
             try {
-                response = await fetch(url);
+                // A flaky connection can hang rather than fail.
+                response = await fetch(url, {
+                    signal: AbortSignal.timeout(ContourFontTimeoutMs),
+                });
+                // The server responded, but the font file isn't there.
+                if (!response.ok) return 'unavailable';
+                buffer = await response.arrayBuffer();
             } catch {
-                // Couldn't reach the network at all.
+                // Couldn't reach the network, or stalled.
                 return 'connection';
             }
-            // The server responded, but the font file isn't there.
-            if (!response.ok) return 'unavailable';
-
-            const buffer = await response.arrayBuffer();
             const fontkit = await import('fontkit');
             const created = fontkit.create(new Uint8Array(buffer));
             // Font files are single fonts, but create() may return a collection.

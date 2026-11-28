@@ -927,6 +927,10 @@
                 "added": "$~dodano punkt $number",
                 "removed": "$~usunięto punkt $number",
                 "last": "$~ścieżka potrzebuje przynajmniej dwóch punktów"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

@@ -903,6 +903,10 @@
                 "added": "$~添加了点 $number",
                 "removed": "$~移除了点 $number",
                 "last": "$~一条路径至少需要两个点"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

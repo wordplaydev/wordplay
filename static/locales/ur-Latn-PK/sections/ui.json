@@ -1375,6 +1375,10 @@
             "keypad": {
                 "label": "$~Is mansooba ki istemaal hone wali kunjiyan",
                 "any": "$~Chalane ke liye tap karein"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

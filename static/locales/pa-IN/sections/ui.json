@@ -927,6 +927,10 @@
                 "added": "$~ਬਿੰਦੂ $number ਜੋੜਿਆ",
                 "removed": "$~ਬਿੰਦੂ $number ਹਟਾਇਆ",
                 "last": "$~ਇੱਕ ਰਸਤੇ ਲਈ ਘੱਟੋ-ਘੱਟ ਦੋ ਬਿੰਦੂ ਚਾਹੀਦੇ ਹਨ"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

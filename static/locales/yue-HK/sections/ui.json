@@ -1368,6 +1368,10 @@
             "keypad": {
                 "label": "$~呢個專案用到嘅鍵",
                 "any": "$~撳一下就播放"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

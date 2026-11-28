@@ -932,6 +932,10 @@
                 "added": "$~બિંદુ $number ઉમેર્યું",
                 "removed": "$~બિંદુ $number કાઢી નાખ્યું",
                 "last": "$~પાથ માટે ઓછામાં ઓછા બે બિંદુ જોઈએ"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

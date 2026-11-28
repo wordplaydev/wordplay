@@ -1157,6 +1157,10 @@
                 "added": "$~$number వ బిందువు జోడించబడింది",
                 "removed": "$~$number వ బిందువు తొలగించబడింది",
                 "last": "$~ఒక మార్గానికి కనీసం రెండు బిందువులు కావాలి"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.43.1 - 2026-11-28
+
+### Fixed
+
+- 🧲 We fixed text that collides by its shape acting like a box after a dropped connection: the stage now waits for its letters and tries the download again.
+
 ## 0.43.0 - 2026-11-21
 
 ### Changed

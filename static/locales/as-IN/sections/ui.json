@@ -1157,6 +1157,10 @@
                 "added": "$~$number নং বিন্দু যোগ কৰা হ'ল",
                 "removed": "$~$number নং বিন্দু আঁতৰোৱা হ'ল",
                 "last": "$~এটা পথৰ বাবে কমেও দুটা বিন্দু লাগে"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

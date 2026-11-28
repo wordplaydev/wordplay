@@ -9,6 +9,7 @@ import {
     shapeTextGlyphs,
     type OutlinePoint,
 } from '#basis/faces/shapeText.ts';
+import { NetworkRetryDelaysMs } from '#basis/faces/Fonts.ts';
 import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
 
 /** A glyph's outline as closed contours, in **em units**, y-up from the
@@ -43,12 +44,49 @@ const MAX_POINTS = 2000;
 export const glyphOutlinesGeneration = writable(0);
 
 /** Resolved outlines, keyed by outlineKey. `null` records a face/text that has
- *  no usable outline — an uncovered character, an unreachable file — so we ask for
- *  it once rather than on every sync. */
+ *  no usable outline — an uncovered character, a file that wouldn't load after
+ *  retrying — so we ask for it once rather than on every sync. */
 const outlines = new Map<string, OutlineMesh | null>();
 
-/** Keys with a load in flight, so concurrent syncs share one request. */
+/** Keys with a load in flight or waiting to retry, so concurrent syncs share
+ *  one request and physics knows to wait. */
 const loading = new Set<string>();
+
+/** Called whenever a key starts or stops loading, so the stage can say what
+ *  physics is waiting for. */
+const listeners = new Set<() => void>();
+
+/** Subscribe to loading changes; returns an unsubscribe. */
+export function observeGlyphOutlines(listener: () => void): () => void {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+}
+
+function notify() {
+    for (const listener of listeners) listener();
+}
+
+/** Whether an outline is still on its way, which is what physics waits for. */
+export function isGlyphOutlinePending(key: string): boolean {
+    return loading.has(key);
+}
+
+/** How many outlines are on their way. */
+export function pendingGlyphOutlines(): number {
+    return loading.size;
+}
+
+/** Keys that gave up after their retries could not reach the network, as
+ *  opposed to text that simply has no outline, which is nothing to report. */
+const unreachable = new Set<string>();
+
+/** How many outlines couldn't be downloaded, so their bodies use boxes. */
+export function unreachableGlyphOutlines(): number {
+    return unreachable.size;
+}
+
+/** What loading an outline needs, injectable so tests can fail it on demand. */
+export type Shaper = typeof shapeTextGlyphs;
 
 /** Identifies an outline, and doubles as the body's rebuild trigger: a body
  *  built before the outline arrived carries `undefined`, so the key changing is
@@ -79,22 +117,38 @@ export function getGlyphOutline(
     const cached = outlines.get(key);
     if (cached !== undefined) return cached ?? undefined;
     if (!loading.has(key)) {
-        loading.add(key);
-        void load(key, text, face, weight, italic);
+        void loadGlyphOutline(key, text, face, weight, italic);
     }
     return undefined;
 }
 
-async function load(
+/** Load an outline, retrying while the network is unreachable. The shaper
+ *  and wait are injectable for tests. */
+export async function loadGlyphOutline(
     key: string,
     text: string,
     face: string,
     weight: number,
     italic: boolean,
+    shape: Shaper = shapeTextGlyphs,
+    wait: (ms: number) => Promise<void> = (ms) =>
+        new Promise((resolve) => setTimeout(resolve, ms)),
 ) {
+    // Before the first await, so the key is pending as soon as it's asked for.
+    loading.add(key);
+    notify();
     let mesh: OutlineMesh | null = null;
+    let offline = false;
     try {
-        const shaped = await shapeTextGlyphs(text, face, weight, italic);
+        let shaped = await shape(text, face, weight, italic);
+        // Only a failure to reach the network is worth another try; a missing or
+        // unreadable file would fail the same way every time.
+        for (const delay of NetworkRetryDelaysMs) {
+            if (shaped !== 'connection') break;
+            await wait(delay);
+            shaped = await shape(text, face, weight, italic);
+        }
+        offline = shaped === 'connection';
         if (typeof shaped !== 'string') {
             const glyphs = shaped.map((glyph) => ({
                 loops: flattenGlyphLoops(
@@ -117,6 +171,8 @@ async function load(
     }
     loading.delete(key);
     outlines.set(key, mesh);
+    if (offline) unreachable.add(key);
+    notify();
     glyphOutlinesGeneration.update((generation) => generation + 1);
 }
 

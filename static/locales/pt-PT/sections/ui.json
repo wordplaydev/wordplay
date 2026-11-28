@@ -1183,6 +1183,10 @@
                 "added": "$~ponto $number adicionado",
                 "removed": "$~ponto $number removido",
                 "last": "$~um caminho precisa de pelo menos dois pontos"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

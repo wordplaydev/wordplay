@@ -1076,9 +1076,13 @@ test('resolving a color needs no basis', () => {
 // tokenizer's rereading of a damaged source and its splitting of a definition's name
 // from the input it ran into when their `(` was deleted, and three strings in `en-US.json`. `causes.ts`, which groups and filters conflicts and imports a
 // dozen of them, is reached only by the project and the editor, and is on none of these.
+//
+// Retrying a font download that dropped is **+0 files** and moves `Page.svelte` by a
+// hundredth: the retry lives in `Fonts.ts`, which every page carries because every page
+// loads faces, and a face that failed once used to stay in a fallback for the session.
 test.each([
     ['src/routes/+layout.svelte', 544, 4.32],
-    ['src/components/app/Page.svelte', 567, 4.57],
+    ['src/components/app/Page.svelte', 567, 4.58],
     ['src/routes/[[locale]]/+page.svelte', 582, 4.67],
     ['src/routes/[[locale]]/galleries/+page.svelte', 587, 4.68],
     // Raised from 4.61 for the yue and nan entries in LanguageCode.ts, which every page carries.

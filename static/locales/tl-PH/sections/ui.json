@@ -1190,6 +1190,10 @@
                 "added": "$~idinagdag ang puntos $number",
                 "removed": "$~inalis ang puntos $number",
                 "last": "$~kailangan ng landas ng hindi bababa sa dalawang puntos"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

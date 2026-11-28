@@ -7,6 +7,7 @@ import {
     onRapierLoaded,
     rapierLoaded,
 } from '#output/physics/rapierLoader.ts';
+import Fonts from '#basis/faces/Fonts.ts';
 import { get } from 'svelte/store';
 import { animationFactor } from '#db/Database.ts';
 import type { Contact } from '#output/Cues/contacts.ts';
@@ -28,6 +29,7 @@ import Phrase from '#output/Output/Phrase.ts';
 import {
     getGlyphOutline,
     glyphColliderDesc,
+    isGlyphOutlinePending,
     outlineKey,
     type OutlineMesh,
 } from '#output/physics/glyphOutline.ts';
@@ -155,6 +157,10 @@ export default class Physics {
     /** True once we've registered to re-evaluate when a pending Rapier load
      *  finishes, so we register at most one callback per outstanding load. */
     private awaitingRapier = false;
+
+    /** How many bodies are waiting on a glyph outline or face that is still
+     *  downloading at the last sync. tick() holds the simulation while any are. */
+    private awaitingOutlines = 0;
 
     /** The bodies that pull on others, with their strength (mass × pull, kg),
      *  rebuilt each sync because both come from a Matter that is re-read every
@@ -366,6 +372,9 @@ export default class Physics {
         // Rebuilt below from whatever currently has a non-zero Matter.pull.
         this.attractors.clear();
 
+        // Counted below from the bodies whose outlines are still on their way.
+        this.awaitingOutlines = 0;
+
         // CREATE and UPDATE bodies for all outputs currently in the scene.
 
         // Iterate through all of the output in the current scene.
@@ -433,6 +442,32 @@ export default class Physics {
                     // notices that; `undefined` on both sides is every body
                     // that never asked for one.
                     const wantedOutline = glyphOutlineFor(info, matter)?.key;
+                    // Asked for an outline that is still downloading? Hold the
+                    // simulation until it arrives, or what lands on this body
+                    // lands on its box instead.
+                    // Likewise for its face, which sizes its box and draws it.
+                    if (
+                        info.output instanceof Phrase &&
+                        Fonts.isFaceLoading(
+                            info.output.face ?? info.context.face,
+                        )
+                    )
+                        this.awaitingOutlines++;
+                    else if (wantedOutline === undefined) {
+                        const request = glyphOutlineRequest(info, matter);
+                        if (
+                            request !== undefined &&
+                            isGlyphOutlinePending(
+                                outlineKey(
+                                    request.text,
+                                    request.face,
+                                    PlainWeight,
+                                    false,
+                                ),
+                            )
+                        )
+                            this.awaitingOutlines++;
+                    }
                     if (
                         shape === undefined ||
                         shape.width !== info.width ||
@@ -693,9 +728,12 @@ export default class Physics {
 
         const factor = get(animationFactor);
 
-        // Frozen world (animationFactor 0 / calm mode): finalize any deferred
-        // moves so bodies stay where Placement put them, then skip simulation.
-        if (factor <= 0) {
+        // Frozen world (animationFactor 0 / calm mode), or waiting for an
+        // outline: finalize any deferred moves so bodies stay where Placement
+        // put them, then skip simulation. Dropping the owed time is what keeps
+        // a held world from fast-forwarding when it is released.
+        if (factor <= 0 || this.awaitingOutlines > 0) {
+            if (this.awaitingOutlines > 0) this.accumulator = 0;
             for (const [shape, move] of this.sweepingBodies)
                 shape.rigidBody.setTranslation(move.to, true);
             this.sweepingBodies.clear();
@@ -1097,6 +1135,30 @@ function glyphOutlineFor(
     info: OutputInfo,
     matter: Matter | undefined,
 ): GlyphOutline | undefined {
+    const request = glyphOutlineRequest(info, matter);
+    if (request === undefined) return undefined;
+    const { phrase, text, face } = request;
+    const mesh = getGlyphOutline(text, face, PlainWeight, false);
+    if (mesh === undefined) return undefined;
+
+    const { height } = phrase.getLayout(info.context);
+    const aboveBottom = phrase.getBaselineOffset(info.context);
+    if (aboveBottom === undefined) return undefined;
+
+    return {
+        key: outlineKey(text, face, PlainWeight, false),
+        mesh,
+        size: phrase.size ?? info.context.size,
+        baseline: height - aboveBottom,
+    };
+}
+
+/** The phrase, text and face whose outline this output asked to collide by,
+ *  or undefined when it didn't ask or can't be traced. */
+function glyphOutlineRequest(
+    info: OutputInfo,
+    matter: Matter | undefined,
+): { phrase: Phrase; text: string; face: string } | undefined {
     const phrase = info.output;
     if (
         matter?.outline !== true ||
@@ -1123,20 +1185,7 @@ function glyphOutlineFor(
     )
         return undefined;
 
-    const face = phrase.face ?? info.context.face;
-    const mesh = getGlyphOutline(text.text, face, PlainWeight, false);
-    if (mesh === undefined) return undefined;
-
-    const { height } = phrase.getLayout(info.context);
-    const aboveBottom = phrase.getBaselineOffset(info.context);
-    if (aboveBottom === undefined) return undefined;
-
-    return {
-        key: outlineKey(text.text, face, PlainWeight, false),
-        mesh,
-        size: phrase.size ?? info.context.size,
-        baseline: height - aboveBottom,
-    };
+    return { phrase, text: text.text, face: phrase.face ?? info.context.face };
 }
 
 /** Where a phrase's ink sits in its box, in meters: how tall it is, and how far

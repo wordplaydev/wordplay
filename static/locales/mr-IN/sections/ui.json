@@ -927,6 +927,10 @@
                 "added": "$~बिंदू $number जोडला",
                 "removed": "$~बिंदू $number काढून टाकला",
                 "last": "$~मार्गासाठी किमान दोन बिंदू लागतात"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

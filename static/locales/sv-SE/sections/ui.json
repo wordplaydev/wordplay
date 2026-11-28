@@ -932,6 +932,10 @@
                 "added": "$~lade till punkt $number",
                 "removed": "$~tog bort punkt $number",
                 "last": "$~en bana behöver minst två punkter"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

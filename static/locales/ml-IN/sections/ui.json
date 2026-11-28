@@ -1375,6 +1375,10 @@
             "keypad": {
                 "label": "$~ഈ പദ്ധതി ഉപയോഗിക്കുന്ന താക്കോലുകൾ",
                 "any": "$~പ്ലേ ചെയ്യാൻ തൊടുക"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

@@ -1233,6 +1233,10 @@
             "keypad": {
                 "label": "$~کلیدهایی که این پروژه استفاده می‌کند",
                 "any": "$~برای پخش ضربه بزنید"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {

@@ -1152,6 +1152,10 @@
                 "added": "$~ಬಿಂದು $number ಸೇರಿಸಲಾಗಿದೆ",
                 "removed": "$~ಬಿಂದು $number ತೆಗೆಯಲಾಗಿದೆ",
                 "last": "$~ಒಂದು ಪಥಕ್ಕೆ ಕನಿಷ್ಠ ಎರಡು ಬಿಂದುಗಳು ಬೇಕು"
+            },
+            "outline": {
+                "loading": "$?Getting letter shapes ready…",
+                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
             }
         },
         "timeline": {
