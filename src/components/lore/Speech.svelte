@@ -598,7 +598,7 @@
 
     .emotion-angry {
         animation: angry linear infinite;
-        animation-duration: calc(var(--animation-factor) * 25ms);
+        animation-duration: calc(var(--animation-factor) * 145ms);
         transform-origin: center;
     }
 
