@@ -934,8 +934,8 @@
                 "last": "$~પાથ માટે ઓછામાં ઓછા બે બિંદુ જોઈએ"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~કંઈ પણ ખસે તે પહેલાં અક્ષરોના આકારની રાહ જોવાઈ રહી છે…",
+                "boxes": "$~અક્ષરોના આકાર ડાઉનલોડ થયા નથી, તેથી આ શબ્દો ડબ્બા જેવી વસ્તુઓ સાથે અથડાય છે."
             }
         },
         "timeline": {

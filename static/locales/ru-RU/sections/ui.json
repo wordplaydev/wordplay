@@ -1382,8 +1382,8 @@
                 "any": "$~Нажми, чтобы играть"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Ждём формы букв, пока ничего не двигается…",
+                "boxes": "$~Формы букв не загрузились, поэтому слова сталкиваются с предметами, как коробки."
             }
         },
         "timeline": {

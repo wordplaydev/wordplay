@@ -1199,8 +1199,8 @@
                 "last": "$~बाटोलाई कम्तीमा दुई बिन्दु चाहिन्छ"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~कुनै पनि चीज सार्नुअघि अक्षरका आकारहरू आउने प्रतीक्षा गर्दै…",
+                "boxes": "$~अक्षरका आकारहरू डाउनलोड भएनन्, त्यसैले यी शब्दहरू बाकसजस्ता चीजसँग ठोक्किन्छन्।"
             }
         },
         "timeline": {

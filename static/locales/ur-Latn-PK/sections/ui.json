@@ -1377,8 +1377,8 @@
                 "any": "$~Chalane ke liye tap karein"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Kuch bhi hilne se pehle huroof ki shaklon ka intezaar hai…",
+                "boxes": "$~Huroof ki shaklein download nahin huin, is liye yeh alfaaz cheezon se dibbon ki tarah takraate hain."
             }
         },
         "timeline": {

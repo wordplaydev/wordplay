@@ -905,8 +905,8 @@
                 "last": "$~경로에는 최소한 두 개의 점이 필요합니다"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~무엇이든 움직이기 전에 글자 모양을 기다리는 중입니다…",
+                "boxes": "$~글자 모양을 내려받지 못해서, 이 단어들이 상자처럼 물체에 부딪힙니다."
             }
         },
         "timeline": {

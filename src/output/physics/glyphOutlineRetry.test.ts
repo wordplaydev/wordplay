@@ -1,11 +1,13 @@
-import { expect, test } from 'vitest';
+import { get } from 'svelte/store';
+import { expect, test, vi } from 'vitest';
 import { NetworkRetryDelaysMs } from '#basis/faces/Fonts.ts';
 import {
     getGlyphOutline,
+    glyphOutlinesGeneration,
     isGlyphOutlinePending,
+    isGlyphOutlineUnreachable,
     loadGlyphOutline,
     outlineKey,
-    unreachableGlyphOutlines,
     type Shaper,
 } from './glyphOutline';
 
@@ -30,6 +32,7 @@ function instant() {
 test('a dropped connection is retried, and the outline stays pending meanwhile', async () => {
     const { shape, attempts } = scripted(['connection', []]);
     let release = () => {};
+    let waiting = false;
     const gate = new Promise<void>((resolve) => (release = resolve));
     const load = loadGlyphOutline(
         'retry-ok',
@@ -38,10 +41,14 @@ test('a dropped connection is retried, and the outline stays pending meanwhile',
         400,
         false,
         shape,
-        () => gate,
+        () => {
+            waiting = true;
+            return gate;
+        },
     );
-    // Waiting to retry: physics should still be holding for it.
-    await Promise.resolve();
+    // The first attempt failed and it's waiting to retry: physics should
+    // still be holding for it.
+    await vi.waitFor(() => expect(waiting).toBe(true));
     expect(isGlyphOutlinePending('retry-ok')).toBe(true);
     release();
     await load;
@@ -50,24 +57,23 @@ test('a dropped connection is retried, and the outline stays pending meanwhile',
 });
 
 test('a connection that never comes back gives up, and says so', async () => {
-    const before = unreachableGlyphOutlines();
     const { shape, attempts } = scripted([]);
     const { wait, waited } = instant();
     await loadGlyphOutline('retry-never', 'U', 'Test', 400, false, shape, wait);
     expect(attempts()).toBe(NetworkRetryDelaysMs.length + 1);
     expect(waited).toEqual(NetworkRetryDelaysMs);
     expect(isGlyphOutlinePending('retry-never')).toBe(false);
-    expect(unreachableGlyphOutlines()).toBe(before + 1);
+    expect(isGlyphOutlineUnreachable('retry-never')).toBe(true);
 });
 
 test('a file that cannot be read is not retried', async () => {
-    const before = unreachableGlyphOutlines();
     const { shape, attempts } = scripted(['unreadable']);
     const { wait, waited } = instant();
     await loadGlyphOutline('retry-bad', 'U', 'Test', 400, false, shape, wait);
     expect(attempts()).toBe(1);
     expect(waited).toEqual([]);
-    expect(unreachableGlyphOutlines()).toBe(before);
+    // Nothing to report: it would fail the same way every time.
+    expect(isGlyphOutlineUnreachable('retry-bad')).toBe(false);
 });
 
 test('asking for an outline makes it pending at once', () => {
@@ -76,4 +82,30 @@ test('asking for an outline makes it pending at once', () => {
     expect(
         isGlyphOutlinePending(outlineKey('Q', 'Noto Sans', 400, false)),
     ).toBe(true);
+});
+
+test('coming back online asks again for what gave up', async () => {
+    const handlers: (() => void)[] = [];
+    vi.stubGlobal('window', {
+        addEventListener: (_: string, handler: () => void) =>
+            handlers.push(handler),
+    });
+    const key = 'retry-online';
+    const { wait } = instant();
+    await loadGlyphOutline(
+        key,
+        'U',
+        'Test',
+        400,
+        false,
+        scripted([]).shape,
+        wait,
+    );
+    expect(isGlyphOutlineUnreachable(key)).toBe(true);
+    const generation = get(glyphOutlinesGeneration);
+    for (const handler of handlers) handler();
+    vi.unstubAllGlobals();
+    expect(isGlyphOutlineUnreachable(key)).toBe(false);
+    // Bumped, so stages re-sync and their next ask starts a fresh load.
+    expect(get(glyphOutlinesGeneration)).toBeGreaterThan(generation);
 });

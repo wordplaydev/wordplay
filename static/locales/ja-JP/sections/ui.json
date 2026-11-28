@@ -929,8 +929,8 @@
                 "last": "$~道には少なくとも2つの点が必要だよ"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~動き出す前に、文字の形を待っています…",
+                "boxes": "$~文字の形をダウンロードできなかったので、これらの言葉は箱のようなものとしてぶつかります。"
             }
         },
         "timeline": {

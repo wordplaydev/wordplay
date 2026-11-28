@@ -120,7 +120,7 @@
     import { isPreviewing } from '#output/Music/previewPlayer.ts';
     import samples from '#output/Music/InstrumentSamples.ts';
     import { instrumentSamplesStatus } from '#output/Music/instrumentSamplesStatus.svelte.ts';
-    import { glyphOutlineStatus } from '#output/physics/glyphOutlineStatus.svelte.ts';
+    import type { OutlineStatus } from '#output/physics/Physics.ts';
     import { toInstrumentKey } from '#output/Music/instruments.ts';
     import referencedInstruments, {
         instrumentBinds,
@@ -1162,18 +1162,32 @@
      *  announced even though the program isn't running. */
     const stepping = $derived($evaluation?.mode === 'debug');
 
-    /** Why output that collides by its letter shapes hasn't moved, or collides
-     *  by boxes. The loader is shared by every stage on the page, so it's
-     *  scoped to projects that use Matter at all, as the camera models are
-     *  scoped to projects that use them. */
-    const outlineLabel = $derived.by(() => {
-        if (!glyphOutlineStatus.loading && !glyphOutlineStatus.failed)
-            return undefined;
-        if (project.getReferences(project.shares.output.Matter).length === 0)
-            return undefined;
-        return glyphOutlineStatus.loading
-            ? $locales.getPrimaryPlainText((l) => l.ui.output.outline.loading)
-            : $locales.getPrimaryPlainText((l) => l.ui.output.outline.boxes);
+    /** What this stage's physics says about letter shapes: it's waiting for
+     *  them, or some text that asked for them collides by its box. Reported by
+     *  the stage's own physics, so it never describes another stage. */
+    let outlineStatus = $state<OutlineStatus>(undefined);
+    const outlineLabel = $derived(
+        outlineStatus === undefined
+            ? undefined
+            : $locales.getPrimaryPlainText((l) =>
+                  outlineStatus === 'waiting'
+                      ? l.ui.output.outline.loading
+                      : l.ui.output.outline.boxes,
+              ),
+    );
+
+    /** Say so once on entering each state, since the chip only speaks to a
+     *  pointer, and a stage that silently doesn't move reads as broken. */
+    let announcedOutline: OutlineStatus = undefined;
+    $effect(() => {
+        if (outlineStatus === announcedOutline) return;
+        announcedOutline = outlineStatus;
+        if (outlineLabel !== undefined && announce && $announce)
+            $announce(
+                'model-loading',
+                $locales.getLanguages()[0],
+                outlineLabel,
+            );
     });
 
     /** Keep track of active sensor streams */
@@ -3254,6 +3268,7 @@
                 bind:focusAdjusted
                 bind:zoom
                 bind:contentHidden
+                bind:outlineStatus
                 interactive={!mini}
                 {mini}
                 {editable}
@@ -3332,10 +3347,17 @@
                              hasn't started moving: physics waits for them. -->
                         {#if outlineLabel !== undefined}
                             <span
-                                class="pill stage-control-chip hand-loading"
+                                class="pill stage-control-chip"
+                                class:outline-loading={outlineStatus ===
+                                    'waiting'}
+                                role="img"
                                 title={outlineLabel}
                                 aria-label={outlineLabel}
-                                ><Emoji text="🔤" /></span
+                                ><Emoji
+                                    text={outlineStatus === 'waiting'
+                                        ? '🔤'
+                                        : '📦'}
+                                /></span
                             >
                         {/if}
                         <!-- Model loading indicators -->
@@ -3783,6 +3805,14 @@
     .face-loading,
     .object-loading {
         animation: hand-loading-spin 1.5s linear infinite;
+        display: inline-block;
+        transform-origin: center;
+    }
+
+    /* Spins only while it's waiting, and with motion turned down, not at all. */
+    .outline-loading {
+        animation: hand-loading-spin calc(var(--animation-factor) * 1.5s) linear
+            infinite;
         display: inline-block;
         transform-origin: center;
     }

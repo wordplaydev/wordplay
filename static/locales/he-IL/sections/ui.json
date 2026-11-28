@@ -1180,8 +1180,8 @@
                 "last": "$~מסלול צריך לפחות שתי נקודות"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~ממתינים לצורות האותיות לפני שמשהו זז…",
+                "boxes": "$~צורות האותיות לא ירדו, ולכן המילים האלה מתנגשות בדברים כמו קופסאות."
             }
         },
         "timeline": {

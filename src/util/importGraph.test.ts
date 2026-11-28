@@ -1080,13 +1080,15 @@ test('resolving a color needs no basis', () => {
 // Retrying a font download that dropped is **+0 files** and moves `Page.svelte` by a
 // hundredth: the retry lives in `Fonts.ts`, which every page carries because every page
 // loads faces, and a face that failed once used to stay in a fallback for the session.
+// The projects page moves by a hundredth too, for Physics' outline wait (its live
+// re-check, limit and status), which that page reaches through its previews.
 test.each([
     ['src/routes/+layout.svelte', 544, 4.32],
     ['src/components/app/Page.svelte', 567, 4.58],
     ['src/routes/[[locale]]/+page.svelte', 582, 4.67],
     ['src/routes/[[locale]]/galleries/+page.svelte', 587, 4.68],
     // Raised from 4.61 for the yue and nan entries in LanguageCode.ts, which every page carries.
-    ['src/routes/[[locale]]/projects/+page.svelte', 596, 4.71],
+    ['src/routes/[[locale]]/projects/+page.svelte', 596, 4.72],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

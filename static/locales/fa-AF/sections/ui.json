@@ -1235,8 +1235,8 @@
                 "any": "$~برای پخش ضربه بزنید"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~پیش از هر حرکتی، منتظر شکل حرف‌ها هستم…",
+                "boxes": "$~شکل حرف‌ها دانلود نشد، برای همین این کلمه‌ها مثل جعبه‌ها به چیزها می‌خورند."
             }
         },
         "timeline": {

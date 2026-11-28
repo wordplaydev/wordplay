@@ -1172,8 +1172,8 @@
                 "last": "$~ένα μονοπάτι χρειάζεται τουλάχιστον δύο σημεία"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Περιμένουμε τα σχήματα των γραμμάτων πριν κινηθεί οτιδήποτε…",
+                "boxes": "$~Τα σχήματα των γραμμάτων δεν κατέβηκαν, γι' αυτό αυτές οι λέξεις χτυπούν τα πράγματα σαν κουτιά."
             }
         },
         "timeline": {

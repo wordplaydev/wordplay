@@ -914,8 +914,8 @@
                 "last": "$~ein Pfad braucht mindestens zwei Punkte"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Ich warte auf die Buchstabenformen, bevor sich etwas bewegt…",
+                "boxes": "$~Die Buchstabenformen konnten nicht geladen werden. Darum stoßen diese Wörter wie Kästen an andere Dinge."
             }
         },
         "timeline": {

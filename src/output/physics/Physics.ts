@@ -30,6 +30,7 @@ import {
     getGlyphOutline,
     glyphColliderDesc,
     isGlyphOutlinePending,
+    isGlyphOutlineUnreachable,
     outlineKey,
     type OutlineMesh,
 } from '#output/physics/glyphOutline.ts';
@@ -158,9 +159,25 @@ export default class Physics {
      *  finishes, so we register at most one callback per outstanding load. */
     private awaitingRapier = false;
 
-    /** How many bodies are waiting on a glyph outline or face that is still
-     *  downloading at the last sync. tick() holds the simulation while any are. */
-    private awaitingOutlines = 0;
+    /** The outlines that bodies at the last sync are waiting for, because the
+     *  outline or the face it is traced from is still downloading. tick()
+     *  holds the simulation while any are, and drops each as it arrives. */
+    private held: OutlineRequest[] = [];
+
+    /** How long the simulation has been held for outlines, in ms. Past
+     *  OutlineHoldLimitMs it runs with boxes, since a stage frozen for minutes
+     *  is worse than letters that bump like boxes until their shapes land. */
+    private heldFor = 0;
+
+    /** What the stage should say about outlines; see OutlineStatus. */
+    private outlineStatus: OutlineStatus = undefined;
+
+    /** Told whenever outlineStatus changes, so the stage can show it. */
+    private onOutlineStatus: ((status: OutlineStatus) => void) | undefined;
+
+    /** Whether, at the last sync, some body that asked for an outline is
+     *  colliding as a box instead: it couldn't download, or the hold ran out. */
+    private outlinesAsBoxes = false;
 
     /** The bodies that pull on others, with their strength (mass × pull, kg),
      *  rebuilt each sync because both come from a Matter that is re-read every
@@ -175,6 +192,24 @@ export default class Physics {
 
     constructor(evaluator: Evaluator) {
         this.evaluator = evaluator;
+    }
+
+    /** Be told what the stage should say about outlines, now and on change. */
+    observeOutlineStatus(listener: (status: OutlineStatus) => void) {
+        this.onOutlineStatus = listener;
+        listener(this.outlineStatus);
+    }
+
+    private updateOutlineStatus() {
+        const status: OutlineStatus =
+            this.held.length > 0
+                ? 'waiting'
+                : this.outlinesAsBoxes
+                  ? 'boxes'
+                  : undefined;
+        if (status === this.outlineStatus) return;
+        this.outlineStatus = status;
+        this.onOutlineStatus?.(status);
     }
 
     /** sync() bailed because Rapier isn't loaded yet. Rapier loads only on the
@@ -372,8 +407,10 @@ export default class Physics {
         // Rebuilt below from whatever currently has a non-zero Matter.pull.
         this.attractors.clear();
 
-        // Counted below from the bodies whose outlines are still on their way.
-        this.awaitingOutlines = 0;
+        // Gathered below from the bodies whose outlines are still on their way.
+        this.held = [];
+        let outlinesAsBoxes = false;
+        let outlinesArriving = false;
 
         // CREATE and UPDATE bodies for all outputs currently in the scene.
 
@@ -441,32 +478,21 @@ export default class Physics {
                     // rebuilt when the outline lands. Comparing the key is what
                     // notices that; `undefined` on both sides is every body
                     // that never asked for one.
-                    const wantedOutline = glyphOutlineFor(info, matter)?.key;
-                    // Asked for an outline that is still downloading? Hold the
-                    // simulation until it arrives, or what lands on this body
-                    // lands on its box instead.
-                    // Likewise for its face, which sizes its box and draws it.
-                    if (
-                        info.output instanceof Phrase &&
-                        Fonts.isFaceLoading(
-                            info.output.face ?? info.context.face,
-                        )
-                    )
-                        this.awaitingOutlines++;
-                    else if (wantedOutline === undefined) {
-                        const request = glyphOutlineRequest(info, matter);
-                        if (
-                            request !== undefined &&
-                            isGlyphOutlinePending(
-                                outlineKey(
-                                    request.text,
-                                    request.face,
-                                    PlainWeight,
-                                    false,
-                                ),
-                            )
-                        )
-                            this.awaitingOutlines++;
+                    const request = glyphOutlineRequest(info, matter);
+                    const wantedOutline = glyphOutlineFor(info, request)?.key;
+                    // Asked for an outline that is still downloading, or whose
+                    // face (which sizes its box) is? Hold the simulation until
+                    // both arrive, or what lands on this body lands on its box
+                    // instead. Only bodies that asked wait; everything else
+                    // runs as it always did.
+                    if (request !== undefined && wantedOutline === undefined) {
+                        if (isOutlineArriving(request)) {
+                            outlinesArriving = true;
+                            if (this.heldFor < OutlineHoldLimitMs)
+                                this.held.push(request);
+                            else outlinesAsBoxes = true;
+                        } else if (isGlyphOutlineUnreachable(request.key))
+                            outlinesAsBoxes = true;
                     }
                     if (
                         shape === undefined ||
@@ -648,6 +674,11 @@ export default class Physics {
             }
         }
 
+        // Nothing is on its way any more, so a later wait starts a fresh limit.
+        if (this.held.length === 0 && !outlinesArriving) this.heldFor = 0;
+        this.outlinesAsBoxes = outlinesAsBoxes;
+        this.updateOutlineStatus();
+
         // Sync barriers.
         if (this.stage) {
             const shapes = this.stage.getShapes();
@@ -728,12 +759,30 @@ export default class Physics {
 
         const factor = get(animationFactor);
 
+        // Waiting for outlines? Checked live rather than trusting the last
+        // sync, because a held world doesn't move, so nothing may sync again:
+        // a face that gave up, or an outline that landed while paused.
+        if (this.held.length > 0) {
+            this.heldFor += elapsed;
+            this.held =
+                this.heldFor < OutlineHoldLimitMs
+                    ? this.held.filter(isOutlineArriving)
+                    : [];
+            if (this.held.length === 0) {
+                // Whatever is still on its way after the limit collides as a
+                // box until it lands, and the next sync rebuilds it then.
+                if (this.heldFor >= OutlineHoldLimitMs)
+                    this.outlinesAsBoxes = true;
+                this.updateOutlineStatus();
+            }
+        }
+
         // Frozen world (animationFactor 0 / calm mode), or waiting for an
         // outline: finalize any deferred moves so bodies stay where Placement
         // put them, then skip simulation. Dropping the owed time is what keeps
         // a held world from fast-forwarding when it is released.
-        if (factor <= 0 || this.awaitingOutlines > 0) {
-            if (this.awaitingOutlines > 0) this.accumulator = 0;
+        if (factor <= 0 || this.held.length > 0) {
+            if (this.held.length > 0) this.accumulator = 0;
             for (const [shape, move] of this.sweepingBodies)
                 shape.rigidBody.setTranslation(move.to, true);
             this.sweepingBodies.clear();
@@ -985,7 +1034,7 @@ export default class Physics {
             // The glyph outline, when this phrase asked for one and it has
             // arrived. Its key travels with the body so sync can tell that this
             // one was built before the outline existed.
-            glyphOutlineFor(info, matter),
+            glyphOutlineFor(info, glyphOutlineRequest(info, matter)),
             inkBoxFor(info),
         );
     }
@@ -1133,11 +1182,10 @@ const PlainWeight = 400;
  */
 function glyphOutlineFor(
     info: OutputInfo,
-    matter: Matter | undefined,
+    request: OutlineRequest | undefined,
 ): GlyphOutline | undefined {
-    const request = glyphOutlineRequest(info, matter);
     if (request === undefined) return undefined;
-    const { phrase, text, face } = request;
+    const { phrase, text, face, key } = request;
     const mesh = getGlyphOutline(text, face, PlainWeight, false);
     if (mesh === undefined) return undefined;
 
@@ -1146,19 +1194,43 @@ function glyphOutlineFor(
     if (aboveBottom === undefined) return undefined;
 
     return {
-        key: outlineKey(text, face, PlainWeight, false),
+        key,
         mesh,
         size: phrase.size ?? info.context.size,
         baseline: height - aboveBottom,
     };
 }
 
-/** The phrase, text and face whose outline this output asked to collide by,
- *  or undefined when it didn't ask or can't be traced. */
+/** How long the simulation waits for outlines before running with boxes. A
+ *  shape that lands later still replaces its box, mid-fall if need be. */
+export const OutlineHoldLimitMs = 30000;
+
+/** What the stage says about outlines: the simulation is waiting for them, or
+ *  some text that asked for one is bumping like a box. */
+export type OutlineStatus = 'waiting' | 'boxes' | undefined;
+
+/** Whether an outline, or the face it is measured in, is still downloading. */
+function isOutlineArriving(request: OutlineRequest): boolean {
+    return (
+        isGlyphOutlinePending(request.key) || Fonts.isFaceLoading(request.face)
+    );
+}
+
+/** What an output asked to collide by: its phrase, text, face, and the key
+ *  its outline is cached under. */
+type OutlineRequest = {
+    phrase: Phrase;
+    text: string;
+    face: string;
+    key: string;
+};
+
+/** The outline this output asked to collide by, or undefined when it didn't
+ *  ask or can't be traced. */
 function glyphOutlineRequest(
     info: OutputInfo,
     matter: Matter | undefined,
-): { phrase: Phrase; text: string; face: string } | undefined {
+): OutlineRequest | undefined {
     const phrase = info.output;
     if (
         matter?.outline !== true ||
@@ -1185,7 +1257,13 @@ function glyphOutlineRequest(
     )
         return undefined;
 
-    return { phrase, text: text.text, face: phrase.face ?? info.context.face };
+    const face = phrase.face ?? info.context.face;
+    return {
+        phrase,
+        text: text.text,
+        face,
+        key: outlineKey(text.text, face, PlainWeight, false),
+    };
 }
 
 /** Where a phrase's ink sits in its box, in meters: how tall it is, and how far

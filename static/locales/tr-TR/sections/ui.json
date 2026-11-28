@@ -934,8 +934,8 @@
                 "last": "$~bir yolun en az iki noktaya ihtiyacı vardır"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Hiçbir şey hareket etmeden önce harf şekilleri bekleniyor…",
+                "boxes": "$~Harf şekilleri indirilemedi, bu yüzden bu sözcükler nesnelere kutular gibi çarpıyor."
             }
         },
         "timeline": {

@@ -1370,8 +1370,8 @@
                 "any": "$~撳一下就播放"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~等緊字母形狀，之後先會郁動…",
+                "boxes": "$~字母形狀冇下載到，所以啲字會當做箱仔咁撞嘢。"
             }
         },
         "timeline": {

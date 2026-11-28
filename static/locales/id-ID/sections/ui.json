@@ -1187,8 +1187,8 @@
                 "last": "$~sebuah jalur membutuhkan setidaknya dua titik"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Menunggu bentuk huruf sebelum ada yang bergerak…",
+                "boxes": "$~Bentuk huruf gagal diunduh, jadi kata-kata ini menabrak benda seperti kotak."
             }
         },
         "timeline": {

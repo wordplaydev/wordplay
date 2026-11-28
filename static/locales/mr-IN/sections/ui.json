@@ -929,8 +929,8 @@
                 "last": "$~मार्गासाठी किमान दोन बिंदू लागतात"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~काहीही हलण्यापूर्वी अक्षरांच्या आकारांची वाट पाहत आहे…",
+                "boxes": "$~अक्षरांचे आकार डाउनलोड झाले नाहीत, म्हणून हे शब्द पेट्यांसारखे वस्तूंना आदळतात."
             }
         },
         "timeline": {

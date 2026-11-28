@@ -929,8 +929,8 @@
                 "last": "$~ścieżka potrzebuje przynajmniej dwóch punktów"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Czekam na kształty liter, zanim cokolwiek się ruszy…",
+                "boxes": "$~Kształty liter się nie pobrały, więc te słowa zderzają się z rzeczami jak pudełka."
             }
         },
         "timeline": {

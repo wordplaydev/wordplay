@@ -23043,7 +23043,7 @@
                                     "description": "Chips explaining why output that collides by its letter shapes hasn't started moving, or why it collides by boxes instead",
                                     "properties": {
                                         "boxes": {
-                                            "description": "[plain] Chip shown when letter shapes couldn't download, so output collides by its rectangles instead",
+                                            "description": "[plain] Chip shown when letter shapes couldn't download, so output collides by its boxes instead",
                                             "type": "string"
                                         },
                                         "loading": {

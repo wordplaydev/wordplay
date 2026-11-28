@@ -1159,8 +1159,8 @@
                 "last": "$~এটা পথৰ বাবে কমেও দুটা বিন্দু লাগে"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~কোনো কিছু লৰচৰ কৰাৰ আগতে আখৰৰ আকৃতিবোৰৰ বাবে অপেক্ষা কৰি আছে…",
+                "boxes": "$~আখৰৰ আকৃতিবোৰ ডাউনলোড নহ'ল, সেয়ে এই শব্দবোৰে বাকচৰ দৰে বস্তুত খুন্দা মাৰে।"
             }
         },
         "timeline": {

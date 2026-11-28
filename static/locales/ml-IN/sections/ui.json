@@ -1377,8 +1377,8 @@
                 "any": "$~പ്ലേ ചെയ്യാൻ തൊടുക"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~ഒന്നും നീങ്ങുന്നതിന് മുമ്പ് അക്ഷരരൂപങ്ങൾക്കായി കാത്തിരിക്കുന്നു…",
+                "boxes": "$~അക്ഷരരൂപങ്ങൾ ഡൗൺലോഡ് ആയില്ല, അതുകൊണ്ട് ഈ വാക്കുകൾ പെട്ടികൾ പോലെ വസ്തുക്കളിൽ തട്ടുന്നു."
             }
         },
         "timeline": {

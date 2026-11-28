@@ -1154,8 +1154,8 @@
                 "last": "$~ಒಂದು ಪಥಕ್ಕೆ ಕನಿಷ್ಠ ಎರಡು ಬಿಂದುಗಳು ಬೇಕು"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~ಏನನ್ನಾದರೂ ಸರಿಸುವ ಮೊದಲು ಅಕ್ಷರಗಳ ಆಕಾರಗಳಿಗಾಗಿ ಕಾಯುತ್ತಿದೆ…",
+                "boxes": "$~ಅಕ್ಷರಗಳ ಆಕಾರಗಳು ಡೌನ್‌ಲೋಡ್ ಆಗಲಿಲ್ಲ, ಆದ್ದರಿಂದ ಈ ಪದಗಳು ಪೆಟ್ಟಿಗೆಗಳಂತೆ ವಸ್ತುಗಳಿಗೆ ಡಿಕ್ಕಿ ಹೊಡೆಯುತ್ತವೆ."
             }
         },
         "timeline": {

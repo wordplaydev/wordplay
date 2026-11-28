@@ -1154,8 +1154,8 @@
                 "last": "$~يحتاج المسار إلى نقطتين على الأقل"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~ننتظر أشكال الحروف قبل أن يتحرك أي شيء…",
+                "boxes": "$~لم يتم تنزيل أشكال الحروف، لذلك تصطدم هذه الكلمات بالأشياء كأنها صناديق."
             }
         },
         "timeline": {

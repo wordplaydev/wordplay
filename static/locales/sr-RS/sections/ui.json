@@ -929,8 +929,8 @@
                 "last": "$~путањи су потребне најмање две тачке"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Чекам облике слова пре него што се било шта помери…",
+                "boxes": "$~Облици слова нису преузети, па се ове речи сударају као да су кутије."
             }
         },
         "timeline": {

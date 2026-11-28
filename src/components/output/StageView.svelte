@@ -6,6 +6,7 @@
 <script lang="ts">
     import { fontsLoadedGeneration, loadedFonts } from '#basis/faces/Fonts.ts';
     import { glyphOutlinesGeneration } from '#output/physics/glyphOutline.ts';
+    import type { OutlineStatus } from '#output/physics/Physics.ts';
     import type Project from '#db/projects/Project.ts';
     import Animator, {
         type Moved,
@@ -96,6 +97,9 @@
         /** Whether this stage's colors are being flipped for a dark canvas.
          * Decided by OutputView, since it owns the run this is latched to. */
         adapting?: boolean;
+        /** What this stage's physics says about letter shapes it is waiting
+         *  for, or colliding without, so OutputView can show it. */
+        outlineStatus?: OutlineStatus;
     }
 
     let {
@@ -114,6 +118,7 @@
         contentHidden = $bindable(false),
         mini = false,
         adapting = false,
+        outlineStatus = $bindable(),
     }: Props = $props();
 
     const evaluation = getEvaluation();
@@ -416,6 +421,9 @@
                 if (interactive && animatingNodes)
                     animatingNodes.set(new Set(nodes));
             },
+        );
+        animator.physics.observeOutlineStatus(
+            (status) => (outlineStatus = status),
         );
 
         // A second, flat animator for the overlay/HUD layer.

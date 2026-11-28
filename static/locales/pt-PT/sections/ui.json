@@ -1185,8 +1185,8 @@
                 "last": "$~um caminho precisa de pelo menos dois pontos"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~A aguardar pelas formas das letras antes de qualquer coisa se mover…",
+                "boxes": "$~As formas das letras não foram transferidas, por isso estas palavras batem nas coisas como se fossem caixas."
             }
         },
         "timeline": {

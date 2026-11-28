@@ -905,8 +905,8 @@
                 "last": "$~一条路径至少需要两个点"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~正在等待字母形状加载，加载完之前什么都不会动……",
+                "boxes": "$~字母形状没有下载成功，所以这些文字会像盒子一样撞到东西。"
             }
         },
         "timeline": {

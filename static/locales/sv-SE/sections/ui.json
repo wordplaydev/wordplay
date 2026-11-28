@@ -934,8 +934,8 @@
                 "last": "$~en bana behöver minst två punkter"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Väntar på bokstävernas former innan något rör sig…",
+                "boxes": "$~Bokstävernas former laddades inte ner, så orden krockar med saker som om de vore lådor."
             }
         },
         "timeline": {

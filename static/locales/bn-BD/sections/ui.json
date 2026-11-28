@@ -1187,8 +1187,8 @@
                 "last": "$~একটা পথের জন্য অন্তত দুটো বিন্দু লাগে"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~কিছু নড়ার আগে অক্ষরের আকার আসার জন্য অপেক্ষা করা হচ্ছে…",
+                "boxes": "$~অক্ষরের আকার ডাউনলোড হয়নি, তাই এই শব্দগুলো বাক্সের মতো করে জিনিসে ধাক্কা খায়।"
             }
         },
         "timeline": {

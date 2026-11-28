@@ -1187,8 +1187,8 @@
                 "last": "$~un traseu are nevoie de cel puțin două puncte"
             },
             "outline": {
-                "loading": "$?Getting letter shapes ready…",
-                "boxes": "$?Letter shapes could not load, so text bumps like boxes."
+                "loading": "$~Se așteaptă formele literelor înainte să se miște ceva…",
+                "boxes": "$~Formele literelor nu s-au descărcat, așa că aceste cuvinte se lovesc de lucruri ca niște cutii."
             }
         },
         "timeline": {

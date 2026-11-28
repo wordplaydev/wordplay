@@ -151,6 +151,13 @@ export class FontManager {
                 this.loadGeneration++;
                 fontsLoadedGeneration.update((n) => n + 1);
             });
+        // A face given up on is asked for once more when the browser comes
+        // back online; the next stage to want it starts the download.
+        if (typeof window !== 'undefined')
+            window.addEventListener('online', () => {
+                for (const [face, state] of this.facesLoaded)
+                    if (state === 'failed') this.facesLoaded.delete(face);
+            });
     }
 
     getLoadGeneration(): number {
@@ -197,7 +204,10 @@ export class FontManager {
         // If preloaded, don't load it.
         if (face !== undefined && face.preloaded === true) return;
 
-        if (this.facesLoaded.get(name) === 'loaded') return;
+        // Already loaded, already on its way, or given up on: a stage asks on
+        // every evaluation, and each ask used to start another round of
+        // downloads, which kept a face that was failing perpetually loading.
+        if (this.facesLoaded.has(name)) return;
 
         // Mark the face requested.
         this.facesLoaded.set(name, 'requested');
@@ -272,10 +282,11 @@ export class FontManager {
 
         const loads = await Promise.all(promises);
 
-        this.facesLoaded.set(
-            name,
-            loads.every((loaded) => loaded) ? 'loaded' : 'failed',
-        );
+        const loaded = loads.every((loaded) => loaded);
+        this.facesLoaded.set(name, loaded ? 'loaded' : 'failed');
+        // A face that gave up changes nothing a successful load would signal,
+        // but whatever was waiting for it has to hear that it's done.
+        if (!loaded) fontsLoadedGeneration.update((n) => n + 1);
     }
 
     /** Load a face given a getFaceCSS() string (`"Face", <fallbacks>`) by
@@ -364,11 +375,15 @@ export class FontManager {
             if (delay > 0) await wait(delay);
             const fontFace = this.registerFontFace(font);
             if (fontFace === null) return false;
+            let timer: ReturnType<typeof setTimeout> | undefined;
             try {
                 await Promise.race([
                     fontFace.load(),
-                    wait(ContourFontTimeoutMs).then(() => {
-                        throw new Error('stalled');
+                    new Promise((_, reject) => {
+                        timer = setTimeout(
+                            () => reject(new Error('stalled')),
+                            FontDownloadTimeoutMs,
+                        );
                     }),
                 ]);
                 // Update the loaded set, which font dependent measurements watch.
@@ -378,6 +393,8 @@ export class FontManager {
             } catch {
                 // Make way for the next attempt's face.
                 document.fonts.delete(fontFace);
+            } finally {
+                clearTimeout(timer);
             }
         }
         return false;
@@ -540,15 +557,8 @@ function contourFontKey(
     return `${face}-${weight}-${italic ? 'i' : 'n'}-${range ?? 'all'}`;
 }
 
-/**
- * Fetch and parse a single font file for contour extraction, caching the parsed
- * fontkit Font. fontkit decodes WOFF2 internally, so no separate decompression
- * step is needed. Returns a parsed Font on success, a ContourFontError describing
- * the failure (so the caller can report it), or undefined when there's nothing to
- * do (no browser, or an unsupported face/weight).
- */
 /** A stalled download counts as a connection failure after this long. */
-const ContourFontTimeoutMs = 20000;
+const FontDownloadTimeoutMs = 20000;
 
 /** Waits before each retry of a font download that couldn't reach the network. */
 export const NetworkRetryDelaysMs = [1000, 2000, 4000, 8000];
@@ -556,6 +566,13 @@ export const NetworkRetryDelaysMs = [1000, 2000, 4000, 8000];
 const wait = (ms: number) =>
     new Promise<void>((resolve) => setTimeout(resolve, ms));
 
+/**
+ * Fetch and parse a single font file for contour extraction, caching the parsed
+ * fontkit Font. fontkit decodes WOFF2 internally, so no separate decompression
+ * step is needed. Returns a parsed Font on success, a ContourFontError describing
+ * the failure (so the caller can report it), or undefined when there's nothing to
+ * do (no browser, or an unsupported face/weight).
+ */
 export async function getContourFont(
     face: SupportedFace,
     weight: FontWeight,
@@ -589,19 +606,21 @@ export async function getContourFont(
         try {
             let response: Response;
             let buffer: ArrayBuffer;
+            let fontkit: typeof import('fontkit');
             try {
                 // A flaky connection can hang rather than fail.
                 response = await fetch(url, {
-                    signal: AbortSignal.timeout(ContourFontTimeoutMs),
+                    signal: AbortSignal.timeout(FontDownloadTimeoutMs),
                 });
                 // The server responded, but the font file isn't there.
                 if (!response.ok) return 'unavailable';
                 buffer = await response.arrayBuffer();
+                // The parser is a chunk of its own, so it's a download too.
+                fontkit = await import('fontkit');
             } catch {
                 // Couldn't reach the network, or stalled.
                 return 'connection';
             }
-            const fontkit = await import('fontkit');
             const created = fontkit.create(new Uint8Array(buffer));
             // Font files are single fonts, but create() may return a collection.
             const font = 'fonts' in created ? created.fonts[0] : created;
