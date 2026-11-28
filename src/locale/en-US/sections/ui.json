@@ -1367,6 +1367,10 @@
                 "loading": "Getting $instruments ready…",
                 "synthesized": "$instruments could not load, so they sound synthesized."
             },
+            "outline": {
+                "loading": "Waiting for letter shapes before anything moves…",
+                "boxes": "Letter shapes didn't download, so these words hit things like boxes."
+            },
             "keypad": {
                 "label": "Keys this project uses",
                 "any": "Tap to play"

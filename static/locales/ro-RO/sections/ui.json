@@ -1185,6 +1185,10 @@
                 "added": "$~punct adăugat $number",
                 "removed": "$~punct eliminat $number",
                 "last": "$~un traseu are nevoie de cel puțin două puncte"
+            },
+            "outline": {
+                "loading": "$~Se așteaptă formele literelor înainte să se miște ceva…",
+                "boxes": "$~Formele literelor nu s-au descărcat, așa că aceste cuvinte se lovesc de lucruri ca niște cutii."
             }
         },
         "timeline": {

@@ -1383,6 +1383,10 @@
             "keypad": {
                 "label": "$~Tsit ê tsuan-àn ēng-tio̍h ê kiān",
                 "any": "$~Tshuā tsit-ē, khai-sí pàng"
+            },
+            "outline": {
+                "loading": "$~Teh tán jī-hîng ê hîng-tsōng, tsiah ē ū tōng-tsok…",
+                "boxes": "$~Jī-hîng ê hîng-tsōng bô the̍h-lâi, in-uī án-nī tsiah-ê jī tuì tiûⁿ-iūⁿ-á khah-kā."
             }
         },
         "timeline": {

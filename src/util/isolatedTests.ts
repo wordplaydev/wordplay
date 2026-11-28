@@ -30,6 +30,7 @@ export const MockingTests = [
     'src/output/Output/measureFormats.test.ts',
     'src/output/Output/stageBubbleBounds.test.ts',
     'src/output/physics/contacts.test.ts',
+    'src/output/physics/outlineHold.test.ts',
     'src/output/physics/worldLifetime.test.ts',
     'src/util/localeGoto.test.ts',
 ];

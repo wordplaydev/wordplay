@@ -912,6 +912,10 @@
                 "added": "$~Punkt $number hinzugefügt",
                 "removed": "$~Punkt $number entfernt",
                 "last": "$~ein Pfad braucht mindestens zwei Punkte"
+            },
+            "outline": {
+                "loading": "$~Ich warte auf die Buchstabenformen, bevor sich etwas bewegt…",
+                "boxes": "$~Die Buchstabenformen konnten nicht geladen werden. Darum stoßen diese Wörter wie Kästen an andere Dinge."
             }
         },
         "timeline": {

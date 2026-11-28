@@ -1185,6 +1185,10 @@
                 "added": "$~menambahkan titik $number",
                 "removed": "$~menghapus titik $number",
                 "last": "$~sebuah jalur membutuhkan setidaknya dua titik"
+            },
+            "outline": {
+                "loading": "$~Menunggu bentuk huruf sebelum ada yang bergerak…",
+                "boxes": "$~Bentuk huruf gagal diunduh, jadi kata-kata ini menabrak benda seperti kotak."
             }
         },
         "timeline": {

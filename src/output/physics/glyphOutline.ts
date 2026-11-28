@@ -9,6 +9,7 @@ import {
     shapeTextGlyphs,
     type OutlinePoint,
 } from '#basis/faces/shapeText.ts';
+import { NetworkRetryDelaysMs } from '#basis/faces/Fonts.ts';
 import { PX_PER_METER } from '#output/Output/outputToCSS.ts';
 
 /** A glyph's outline as closed contours, in **em units**, y-up from the
@@ -43,12 +44,45 @@ const MAX_POINTS = 2000;
 export const glyphOutlinesGeneration = writable(0);
 
 /** Resolved outlines, keyed by outlineKey. `null` records a face/text that has
- *  no usable outline — an uncovered character, an unreachable file — so we ask for
- *  it once rather than on every sync. */
+ *  no usable outline — an uncovered character, a file that wouldn't load after
+ *  retrying — so we ask for it once rather than on every sync. */
 const outlines = new Map<string, OutlineMesh | null>();
 
-/** Keys with a load in flight, so concurrent syncs share one request. */
+/** Keys with a load in flight or waiting to retry, so concurrent syncs share
+ *  one request and physics knows to wait. */
 const loading = new Set<string>();
+
+/** Whether an outline is still on its way, which is what physics waits for. */
+export function isGlyphOutlinePending(key: string): boolean {
+    return loading.has(key);
+}
+
+/** Keys that gave up after their retries could not reach the network, as
+ *  opposed to text that simply has no outline, which is nothing to report. */
+const unreachable = new Set<string>();
+
+/** Whether an outline gave up for want of a network, so its body uses a box. */
+export function isGlyphOutlineUnreachable(key: string): boolean {
+    return unreachable.has(key);
+}
+
+/** Once the browser is back online, forget the outlines that couldn't reach
+ *  it, so the next sync asks for them again rather than keeping boxes until
+ *  reload. Registered on the first give-up, so most pages never pay for it. */
+let retryingWhenOnline = false;
+function retryWhenOnline() {
+    if (retryingWhenOnline || typeof window === 'undefined') return;
+    retryingWhenOnline = true;
+    window.addEventListener('online', () => {
+        if (unreachable.size === 0) return;
+        for (const key of unreachable) outlines.delete(key);
+        unreachable.clear();
+        glyphOutlinesGeneration.update((generation) => generation + 1);
+    });
+}
+
+/** What loading an outline needs, injectable so tests can fail it on demand. */
+export type Shaper = typeof shapeTextGlyphs;
 
 /** Identifies an outline, and doubles as the body's rebuild trigger: a body
  *  built before the outline arrived carries `undefined`, so the key changing is
@@ -66,8 +100,8 @@ export function outlineKey(
  * The outline for this text, if it is already loaded. Returns undefined while
  * a load is pending and for text that has no outline at all, since physics
  * treats both the same way: keep the bounding box. Unlike `Contour`, a font
- * failure here is never reported — a collider silently staying rectangular is
- * better than an exception in a program that only asked for nicer collisions.
+ * failure here is never an exception — a collider staying rectangular is
+ * better than a failure in a program that only asked for nicer collisions.
  */
 export function getGlyphOutline(
     text: string,
@@ -79,22 +113,37 @@ export function getGlyphOutline(
     const cached = outlines.get(key);
     if (cached !== undefined) return cached ?? undefined;
     if (!loading.has(key)) {
-        loading.add(key);
-        void load(key, text, face, weight, italic);
+        void loadGlyphOutline(key, text, face, weight, italic);
     }
     return undefined;
 }
 
-async function load(
+/** Load an outline, retrying while the network is unreachable. The shaper
+ *  and wait are injectable for tests. */
+export async function loadGlyphOutline(
     key: string,
     text: string,
     face: string,
     weight: number,
     italic: boolean,
+    shape: Shaper = shapeTextGlyphs,
+    wait: (ms: number) => Promise<void> = (ms) =>
+        new Promise((resolve) => setTimeout(resolve, ms)),
 ) {
+    // Before the first await, so the key is pending as soon as it's asked for.
+    loading.add(key);
     let mesh: OutlineMesh | null = null;
+    let offline = false;
     try {
-        const shaped = await shapeTextGlyphs(text, face, weight, italic);
+        let shaped = await shape(text, face, weight, italic);
+        // Only a failure to reach the network is worth another try; a missing or
+        // unreadable file would fail the same way every time.
+        for (const delay of NetworkRetryDelaysMs) {
+            if (shaped !== 'connection') break;
+            await wait(delay);
+            shaped = await shape(text, face, weight, italic);
+        }
+        offline = shaped === 'connection';
         if (typeof shaped !== 'string') {
             const glyphs = shaped.map((glyph) => ({
                 loops: flattenGlyphLoops(
@@ -117,6 +166,10 @@ async function load(
     }
     loading.delete(key);
     outlines.set(key, mesh);
+    if (offline) {
+        unreachable.add(key);
+        retryWhenOnline();
+    }
     glyphOutlinesGeneration.update((generation) => generation + 1);
 }
 

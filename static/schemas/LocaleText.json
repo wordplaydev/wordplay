@@ -23038,6 +23038,22 @@
                                     "required": ["locale", "default"],
                                     "type": "object"
                                 },
+                                "outline": {
+                                    "additionalProperties": false,
+                                    "description": "Chips explaining why output that collides by its letter shapes hasn't started moving, or why it collides by boxes instead",
+                                    "properties": {
+                                        "boxes": {
+                                            "description": "[plain] Chip shown when letter shapes couldn't download, so output collides by its boxes instead",
+                                            "type": "string"
+                                        },
+                                        "loading": {
+                                            "description": "[plain] Chip shown while letter shapes download; nothing that collides by them moves until they arrive",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": ["loading", "boxes"],
+                                    "type": "object"
+                                },
                                 "permission": {
                                     "additionalProperties": false,
                                     "description": "The pre-evaluation splash shown when a project requires a browser permission.",
@@ -23354,6 +23370,7 @@
                                 "download",
                                 "sensor",
                                 "sound",
+                                "outline",
                                 "keypad"
                             ],
                             "type": "object"

@@ -908,6 +908,10 @@
                 "added": "$~agregó el punto $number",
                 "removed": "$~quitó el punto $number",
                 "last": "$~un camino necesita al menos dos puntos"
+            },
+            "outline": {
+                "loading": "$~Esperando las formas de las letras antes de que algo se mueva…",
+                "boxes": "$~Las formas de las letras no se descargaron, así que estas palabras chocan con las cosas como si fueran cajas."
             }
         },
         "timeline": {

@@ -1185,6 +1185,10 @@
                 "added": "$~đã thêm điểm $number",
                 "removed": "$~đã xóa điểm $number",
                 "last": "$~một đường đi cần ít nhất hai điểm"
+            },
+            "outline": {
+                "loading": "$~Đang chờ hình dạng của các chữ cái trước khi mọi thứ di chuyển…",
+                "boxes": "$~Hình dạng của các chữ cái không tải xuống được, nên những từ này va vào mọi thứ như những chiếc hộp."
             }
         },
         "timeline": {

@@ -1375,6 +1375,10 @@
             "keypad": {
                 "label": "$~Is mansooba ki istemaal hone wali kunjiyan",
                 "any": "$~Chalane ke liye tap karein"
+            },
+            "outline": {
+                "loading": "$~Kuch bhi hilne se pehle huroof ki shaklon ka intezaar hai…",
+                "boxes": "$~Huroof ki shaklein download nahin huin, is liye yeh alfaaz cheezon se dibbon ki tarah takraate hain."
             }
         },
         "timeline": {

@@ -1190,6 +1190,10 @@
                 "added": "$~idinagdag ang puntos $number",
                 "removed": "$~inalis ang puntos $number",
                 "last": "$~kailangan ng landas ng hindi bababa sa dalawang puntos"
+            },
+            "outline": {
+                "loading": "$~Naghihintay sa hugis ng mga titik bago gumalaw ang anumang bagay…",
+                "boxes": "$~Hindi na-download ang hugis ng mga titik, kaya ang mga salitang ito ay tumatama sa mga bagay na parang mga kahon."
             }
         },
         "timeline": {

@@ -1577,6 +1577,14 @@ type UITexts = {
             /** [plain] Chip shown when an instrument's recordings couldn't load and it will sound synthesized */
             synthesized: Template<['instruments']>;
         };
+        /** Chips explaining why output that collides by its letter shapes
+         *  hasn't started moving, or why it collides by boxes instead */
+        outline: {
+            /** [plain] Chip shown while letter shapes download; nothing that collides by them moves until they arrive */
+            loading: string;
+            /** [plain] Chip shown when letter shapes couldn't download, so output collides by its boxes instead */
+            boxes: string;
+        };
         /** The buttons offered on a touch screen in place of the on-screen
          *  keyboard, for a project that responds to a known set of keys */
         keypad: {

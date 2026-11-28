@@ -932,6 +932,10 @@
                 "added": "$~$number numaralı nokta eklendi",
                 "removed": "$~$number numaralı nokta kaldırıldı",
                 "last": "$~bir yolun en az iki noktaya ihtiyacı vardır"
+            },
+            "outline": {
+                "loading": "$~Hiçbir şey hareket etmeden önce harf şekilleri bekleniyor…",
+                "boxes": "$~Harf şekilleri indirilemedi, bu yüzden bu sözcükler nesnelere kutular gibi çarpıyor."
             }
         },
         "timeline": {
